@@ -45,7 +45,7 @@ function App({ url, perPage, limit = 10 }) {
               <Asset {...item.assets[0]} />
             ) : null}
             <div className="media-body">
-              <h5 className="mt-0 mb-1">{item.title}</h5>
+              <h5 className="mt-0 mb-1"><a href={item.permalink}>{item.title}</a></h5>
               <div className="text-secondary small">
                 <span className="mr-3">{moment(item.date).format("YYYY/MM/DD hh:mm")}</span>
                 <span>{item.author.displayName}</span>
