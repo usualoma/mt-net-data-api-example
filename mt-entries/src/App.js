@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import moment from "moment";
 
-function Asset({url}) {
-  const thumbnailUrl = 
-    url.replace(/(\/\.assets\/)([^/]+)\.(\w+)$/, "$1thumbnail/$2-240x240i.$3");
-  return (
-    <img src={thumbnailUrl} className="mr-3" alt="" width="100" />
+function Asset({ url }) {
+  const thumbnailUrl = url.replace(
+    /(\/\.assets\/)([^/]+)\.(\w+)$/,
+    "$1thumbnail/$2-240x240i.$3"
   );
+  return <img src={thumbnailUrl} className="mr-3" alt="" width="100" />;
 }
 
 function App({ url, perPage, limit = 10 }) {
@@ -41,18 +41,18 @@ function App({ url, perPage, limit = 10 }) {
       <ul className="list-unstyled">
         {data.items.map(item => (
           <li key={item.id} className="media">
-            {item.assets.length !== 0 ? (
-              <Asset {...item.assets[0]} />
-            ) : null}
+            {item.assets.length !== 0 ? <Asset {...item.assets[0]} /> : null}
             <div className="media-body">
-              <h5 className="mt-0 mb-1"><a href={item.permalink}>{item.title}</a></h5>
+              <a href={item.permalink} className="text-body">
+                <h5 className="mt-0 mb-1">{item.title}</h5>
+              </a>
               <div className="text-secondary small">
-                <span className="mr-3">{moment(item.date).format("YYYY/MM/DD hh:mm")}</span>
+                <span className="mr-3">
+                  {moment(item.date).format("YYYY/MM/DD hh:mm")}
+                </span>
                 <span>{item.author.displayName}</span>
               </div>
-              <p>
-              {item.excerpt}
-            </p>
+              <p>{item.excerpt}</p>
             </div>
           </li>
         ))}
