@@ -17,7 +17,7 @@ function App({ url, perPage, limit = 10 }) {
   }
 
   const baseUrl =
-    url + (url.match(/\?/) ? "&" : "?") + `limit=${perPage}&offset=`;
+    url + (url.match(/\?/) ? "&" : "?") + `fields=id,title,author,date,excerpt,assets,permalink&limit=${perPage}&offset=`;
 
   const [data, setData] = useState({ items: [], totalResults: 0 });
   const [offset, setOffset] = useState(0);
