@@ -6,7 +6,7 @@ function Asset({url}) {
   const thumbnailUrl = 
     url.replace(/(\/\.assets\/)([^/]+)\.(\w+)$/, "$1thumbnail/$2-240x240i.$3");
   return (
-    <img src={thumbnailUrl} className="mr-3" alt="" style={{width: "150px"}} />
+    <img src={thumbnailUrl} className="mr-3" alt="" width="150" />
   );
 }
 
@@ -38,15 +38,15 @@ function App({ url, perPage, limit = 10 }) {
   const hasNext = offset + perPage < data.totalResults;
   return (
     <>
-      <ul class="list-unstyled">
+      <ul className="list-unstyled">
         {data.items.map(item => (
           <li key={item.id} className="media">
             {item.assets.length !== 0 ? (
               <Asset {...item.assets[0]} />
             ) : null}
-            <div class="media-body">
-              <h5 class="mt-0 mb-1">{item.title}</h5>
-              <div class="text-secondary small">
+            <div className="media-body">
+              <h5 className="mt-0 mb-1">{item.title}</h5>
+              <div className="text-secondary small">
                 <span className="mr-3">{moment(item.date).format("YYYY/MM/DD hh:mm")}</span>
                 <span>{item.author.displayName}</span>
               </div>
@@ -94,7 +94,7 @@ function App({ url, perPage, limit = 10 }) {
             <li className={`page-item ${hasNext ? "" : "disabled"}`}>
               <a
                 className="page-link"
-                tabindex="-1"
+                tabIndex="-1"
                 aria-disabled={!hasNext}
                 aria-label="Next"
                 href="javascript:void(0)"
