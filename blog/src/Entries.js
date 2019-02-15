@@ -84,6 +84,21 @@ function Entries({
     return i > 1 ? `${base}/${i}` : base;
   }
 
+  function getPagelist() {
+    const current = Math.ceil(offset / perPage) + 1;
+    const last = Math.ceil(data.totalResults / perPage) + 1;
+    return [...Array(Math.ceil(last)).keys()].reduce((list, i) => {
+      const p = i + 1;
+      if (p === 1 || p === last || (p >= current - 2 && p <= current + 2)) {
+        list.push(p);
+      } else if (list[list.length - 1]) {
+        list.push(null);
+      }
+
+      return list;
+    }, []);
+  }
+
   const hasPrev = offset !== 0;
   const hasNext = offset + perPage < data.totalResults;
   return (
@@ -118,7 +133,7 @@ function Entries({
       </ul>
       {pagination ? (
         <nav aria-label="Page navigation">
-          <ul className="pagination">
+          <ul className="pagination justify-content-center">
             <li className={`page-item ${hasPrev ? "" : "disabled"}`}>
               <Link
                 className="page-link"
@@ -130,21 +145,29 @@ function Entries({
                 <span aria-hidden="true">&laquo;</span>
               </Link>
             </li>
-            {[...Array(Math.ceil(data.totalResults / perPage)).keys()].map(
-              p => {
-                const o = p * perPage;
+            {getPagelist().map((p, i) => {
+              if (!p) {
+                return (
+                  <li key={i + 1} className="page-item">
+                    <a class="page-link" disabled>
+                      …
+                    </a>
+                  </li>
+                );
+              } else {
+                const o = (p - 1) * perPage;
                 return (
                   <li
-                    key={p + 1}
+                    key={i + 1}
                     className={"page-item" + (offset === o ? " active" : "")}
                   >
                     <Link className="page-link" to={getPage(o)}>
-                      {p + 1}
+                      {p}
                     </Link>
                   </li>
                 );
               }
-            )}
+            })}
             <li className={`page-item ${hasNext ? "" : "disabled"}`}>
               <Link
                 className="page-link"

@@ -91,7 +91,7 @@ function Entry({
 
           <div className="row">
             {prev ? (
-              <div className="col">
+              <div className="col-md-6">
                 <Link to={`/entries/${prev.id}`}>
                   <button type="button" className="btn btn-link">
                     &laquo; {prev.title}
@@ -100,7 +100,7 @@ function Entry({
               </div>
             ) : null}
             {next ? (
-              <div className="col text-right">
+              <div className="col-md-6 text-right">
                 <Link to={`/entries/${next.id}`}>
                   <button type="button" className="btn btn-link">
                     {next.title} &raquo;
