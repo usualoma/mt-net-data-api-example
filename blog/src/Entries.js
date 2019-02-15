@@ -86,8 +86,8 @@ function Entries({
 
   function getPagelist() {
     const current = Math.ceil(offset / perPage) + 1;
-    const last = Math.ceil(data.totalResults / perPage) + 1;
-    return [...Array(Math.ceil(last)).keys()].reduce((list, i) => {
+    const last = Math.ceil(data.totalResults / perPage);
+    return [...Array(last).keys()].reduce((list, i) => {
       const p = i + 1;
       if (p === 1 || p === last || (p >= current - 2 && p <= current + 2)) {
         list.push(p);
