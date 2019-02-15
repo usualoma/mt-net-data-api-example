@@ -11,6 +11,7 @@ function Entries({
   setBreadcrumb,
   match: {
     params: { page },
+    url,
   },
 }) {
   const pagination = !!perPage;
@@ -41,7 +42,7 @@ function Entries({
   );
 
   async function fetchCategory() {
-    const result = await axios(baseUrl.replace(/\/entries.*/));
+    const result = await axios(baseUrl.replace(/\/entries.*/, ''));
     setCategory(result.data);
   }
 
@@ -73,8 +74,12 @@ function Entries({
   );
 
   function getPage(offset) {
+    const base = url;
+    if (page) {
+      url = url.replace(/\/\d+$/, '');
+    }
     const i = Math.floor(offset / perPage) + 1;
-    return i > 1 ? String(i) : "";
+    return i > 1 ? `${url}/${i}` : url;
   }
 
   const hasPrev = offset !== 0;

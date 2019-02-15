@@ -20,6 +20,7 @@ function Entry({
         `${apiUrl}/${id}?fields=id,title,author,date,body,more,categories`
       ).then(({ data }) => {
         setItem(data);
+        window.scrollTo(0, 0);
 
         axios(
           `${apiUrl}?fields=id,title&limit=1&dateField=authored_on&dateFrom=${moment(
@@ -91,14 +92,14 @@ function Entry({
           {prev ? (
             <Link to={`/entries/${prev.id}`}>
               <button type="button" className="btn btn-link">
-                &laquo; ${prev.title}
+                &laquo; {prev.title}
               </button>
             </Link>
           ) : null}
           {next ? (
             <Link to={`/entries/${next.id}`}>
               <button type="button" className="btn btn-link">
-                ${next.title} &raquo;
+                {next.title} &raquo;
               </button>
             </Link>
           ) : null}
