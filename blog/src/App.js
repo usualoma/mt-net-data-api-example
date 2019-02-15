@@ -11,7 +11,7 @@ function App({ apiUrl, path }) {
           exact
           path={path}
           render={props => (
-            <Entries apiUrl={apiUrl + "/entries"} perPage={2} {...props} />
+            <Entries apiUrl={apiUrl + "/entries"} perPage={10} path={path} {...props} />
           )}
         />
         <Route

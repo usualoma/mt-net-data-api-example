@@ -3,7 +3,7 @@ import axios from "axios";
 import moment from "moment";
 import Asset from "./Asset";
 
-function Entries({ apiUrl, perPage, limit = 10 }) {
+function Entries({ apiUrl, perPage, path, limit = 10, history }) {
   const pagination = !!perPage;
   if (!perPage) {
     perPage = limit;
@@ -38,7 +38,14 @@ function Entries({ apiUrl, perPage, limit = 10 }) {
           <li key={item.id} className="media">
             {item.assets.length !== 0 ? <Asset {...item.assets[0]} /> : null}
             <div className="media-body">
-              <a href={"/entries/" + item.id} className="text-body">
+              <a
+                href={`${path.replace(/\/$/, "")}/entries/${item.id}`}
+                className="text-body"
+                onClick={ev => {
+                  ev.preventDefault();
+                  history.push(`${path.replace(/\/$/, "")}/entries/${item.id}`);
+                }}
+              >
                 <h5 className="mt-0 mb-1">{item.title}</h5>
               </a>
               <div className="text-secondary small">
