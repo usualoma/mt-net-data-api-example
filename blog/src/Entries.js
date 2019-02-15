@@ -10,6 +10,7 @@ function Entries({
   path,
   limit = 10,
   history,
+  setTitle,
   match: {
     params: { page },
   },
@@ -18,6 +19,8 @@ function Entries({
   if (!perPage) {
     perPage = limit;
   }
+
+  setTitle(null);
 
   const baseUrl =
     apiUrl +

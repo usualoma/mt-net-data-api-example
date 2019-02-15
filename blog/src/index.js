@@ -4,9 +4,6 @@ import App from "./App";
 
 const elm = document.getElementById("app");
 ReactDOM.render(
-  <App
-    apiUrl={elm.dataset.apiUrl}
-    path={elm.dataset.path}
-  />,
+  <App apiUrl={elm.dataset.apiUrl} path={elm.dataset.path} />,
   elm
 );

@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import moment from "moment";
 
-function Entry({apiUrl, match: {params: {id}}}) {
+function Entry({
+  apiUrl,
+  setTitle,
+  match: {
+    params: { id },
+  },
+}) {
   const [item, setItem] = useState(null);
 
   async function fetchItem() {
@@ -10,20 +16,21 @@ function Entry({apiUrl, match: {params: {id}}}) {
     setItem(result.data);
   }
 
-  useEffect(
-    () => {
-      fetchItem();
-    },
-    []
-  );
+  useEffect(() => {
+    fetchItem();
+  }, []);
+
+  if (item) {
+    setTitle(item.title);
+  }
 
   return (
     <>
       {item ? (
         <>
           <h2>{item.title}</h2>
-          <div dangerouslySetInnerHTML={{__html: item.body}}/>
-          <div dangerouslySetInnerHTML={{__html: item.more}}/>
+          <div dangerouslySetInnerHTML={{ __html: item.body }} />
+          <div dangerouslySetInnerHTML={{ __html: item.more }} />
         </>
       ) : null}
     </>
