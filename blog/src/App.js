@@ -1,3 +1,4 @@
+import Path from "path";
 import React, { Component } from "react";
 import { BrowserRouter, Route, Link } from "react-router-dom";
 import Entries from "./Entries";
@@ -15,7 +16,7 @@ function App({ apiUrl, path }) {
           )}
         />
         <Route
-          path={path + "entries/:id"}
+          path={Path.join(path, "entries/:id")}
           render={props => <Entry apiUrl={apiUrl + "/entries"} {...props} />}
         />
       </div>

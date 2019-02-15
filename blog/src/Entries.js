@@ -1,3 +1,4 @@
+import Path from "path";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import moment from "moment";
@@ -39,11 +40,11 @@ function Entries({ apiUrl, perPage, path, limit = 10, history }) {
             {item.assets.length !== 0 ? <Asset {...item.assets[0]} /> : null}
             <div className="media-body">
               <a
-                href={`${path.replace(/\/$/, "")}/entries/${item.id}`}
+                href={Path.join(path, "/entries/", String(item.id))}
                 className="text-body"
                 onClick={ev => {
                   ev.preventDefault();
-                  history.push(`${path.replace(/\/$/, "")}/entries/${item.id}`);
+                  history.push(Path.join(path, "/entries/", String(item.id)));
                 }}
               >
                 <h5 className="mt-0 mb-1">{item.title}</h5>
