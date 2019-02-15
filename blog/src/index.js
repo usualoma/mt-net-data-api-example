@@ -7,6 +7,7 @@ ReactDOM.render(
   <App
     apiUrl={elm.dataset.apiUrl}
     path={elm.dataset.path}
+    routerType={elm.dataset.routerType}
     baseTitle={document.title}
   />,
   elm
