@@ -33,7 +33,7 @@ function App({ apiUrl, path, baseTitle, routerType = "browser" }) {
                 </li>
               </>
             ) : (
-              <li className="breadcrumb-item active" aria-current="page">
+              <li className="breadcrumb-item active">
                 Blog
               </li>
             )}
