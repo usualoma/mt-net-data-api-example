@@ -12,7 +12,9 @@ function Entry({
   const [item, setItem] = useState(null);
 
   async function fetchItem() {
-    const result = await axios(`${apiUrl}/${id}`);
+    const result = await axios(
+      `${apiUrl}/${id}?fields=id,title,author,date,body,more`
+    );
     setItem(result.data);
   }
 
