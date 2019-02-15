@@ -89,20 +89,26 @@ function Entry({
           <div dangerouslySetInnerHTML={{ __html: item.body }} />
           <div dangerouslySetInnerHTML={{ __html: item.more }} />
 
-          {prev ? (
-            <Link to={`/entries/${prev.id}`}>
-              <button type="button" className="btn btn-link">
-                &laquo; {prev.title}
-              </button>
-            </Link>
-          ) : null}
-          {next ? (
-            <Link to={`/entries/${next.id}`}>
-              <button type="button" className="btn btn-link">
-                {next.title} &raquo;
-              </button>
-            </Link>
-          ) : null}
+          <div className="row">
+            {prev ? (
+              <div className="col">
+                <Link to={`/entries/${prev.id}`}>
+                  <button type="button" className="btn btn-link">
+                    &laquo; {prev.title}
+                  </button>
+                </Link>
+              </div>
+            ) : null}
+            {next ? (
+              <div className="col text-right">
+                <Link to={`/entries/${next.id}`}>
+                  <button type="button" className="btn btn-link">
+                    {next.title} &raquo;
+                  </button>
+                </Link>
+              </div>
+            ) : null}
+          </div>
         </>
       ) : null}
     </>
