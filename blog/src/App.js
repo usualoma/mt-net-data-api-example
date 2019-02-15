@@ -1,14 +1,29 @@
-import Path from "path";
-import React, { Component, useState } from "react";
-import { BrowserRouter, Route, Link } from "react-router-dom";
+import React, { Component, useState, useEffect } from "react";
+import {
+  HashRouter as Router,
+  //BrowserRouter as Router,
+  Route, Link
+} from "react-router-dom";
 import Entries from "./Entries";
 import Entry from "./Entry";
 
 function App({ apiUrl, path }) {
   const [title, setTitle] = useState(null);
 
+  useEffect(
+    () => {
+      if (title) {
+        document.title = title + ' | Blog';
+      }
+      else {
+        document.title = 'Blog';
+      }
+    },
+    [title]
+  );
+
   return (
-    <BrowserRouter>
+    <Router basename={path}>
       <>
         <Route
           render={({ history }) => (
@@ -17,15 +32,9 @@ function App({ apiUrl, path }) {
                 {title ? (
                   <>
                     <li className="breadcrumb-item">
-                      <a
-                        href={path}
-                        onClick={ev => {
-                          ev.preventDefault();
-                          history.push(path);
-                        }}
-                      >
+                      <Link to="/">
                         Blog
-                      </a>
+                      </Link>
                     </li>
                     <li className="breadcrumb-item active" aria-current="page">
                       {title}
@@ -43,7 +52,7 @@ function App({ apiUrl, path }) {
         <div>
           <Route
             exact
-            path={Path.join(path, ":page(\\d+)?")}
+            path="/:page(\d+)?"
             render={props => (
               <Entries
                 apiUrl={apiUrl + "/entries"}
@@ -55,7 +64,7 @@ function App({ apiUrl, path }) {
             )}
           />
           <Route
-            path={Path.join(path, "entries/:id(\\d+)")}
+            path="/entries/:id(\d+)"
             render={props => (
               <Entry
                 apiUrl={apiUrl + "/entries"}
@@ -67,7 +76,7 @@ function App({ apiUrl, path }) {
           />
         </div>
       </>
-    </BrowserRouter>
+    </Router>
   );
 }
 

@@ -1,5 +1,5 @@
-import Path from "path";
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import Asset from "./Asset";
@@ -56,16 +56,12 @@ function Entries({
           <li key={item.id} className="media">
             {item.assets.length !== 0 ? <Asset {...item.assets[0]} /> : null}
             <div className="media-body">
-              <a
-                href={Path.join(path, "/entries/", String(item.id))}
+              <Link
+                to={`/entries/${item.id}`}
                 className="text-body"
-                onClick={ev => {
-                  ev.preventDefault();
-                  history.push(Path.join(path, "/entries/", String(item.id)));
-                }}
               >
                 <h5 className="mt-0 mb-1">{item.title}</h5>
-              </a>
+              </Link>
               <div className="text-secondary small">
                 <span className="mr-3">
                   {moment(item.date).format("YYYY/MM/DD hh:mm")}
@@ -81,19 +77,18 @@ function Entries({
         <nav aria-label="Page navigation">
           <ul className="pagination">
             <li className={`page-item ${hasPrev ? "" : "disabled"}`}>
-              <a
+              <Link
                 className="page-link"
                 tabIndex="-1"
                 aria-disabled={!hasPrev}
                 aria-label="Previous"
-                href="javascript:void(0)"
+                to={getPage(offset - perPage)}
                 onClick={() => {
-                  history.push(Path.join(path, getPage(offset - perPage)));
                   setOffset(offset - perPage);
                 }}
               >
                 <span aria-hidden="true">&laquo;</span>
-              </a>
+              </Link>
             </li>
             {[...Array(Math.ceil(data.totalResults / perPage)).keys()].map(
               p => {
@@ -103,34 +98,32 @@ function Entries({
                     key={p + 1}
                     className={"page-item" + (offset === o ? " active" : "")}
                   >
-                    <a
+                    <Link
                       className="page-link"
-                      href="javascript:void(0)"
+                      to={getPage(o)}
                       onClick={() => {
-                        history.push(Path.join(path, getPage(o)));
                         setOffset(o);
                       }}
                     >
                       {p + 1}
-                    </a>
+                    </Link>
                   </li>
                 );
               }
             )}
             <li className={`page-item ${hasNext ? "" : "disabled"}`}>
-              <a
+              <Link
                 className="page-link"
                 tabIndex="-1"
                 aria-disabled={!hasNext}
                 aria-label="Next"
-                href="javascript:void(0)"
+                to={getPage(offset + perPage)}
                 onClick={() => {
-                  history.push(Path.join(path, getPage(offset + perPage)));
                   setOffset(offset + perPage);
                 }}
               >
                 <span aria-hidden="true">&raquo;</span>
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>

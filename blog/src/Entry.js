@@ -29,6 +29,12 @@ function Entry({
       {item ? (
         <>
           <h2>{item.title}</h2>
+          <div className="text-secondary small">
+            <span className="mr-3">
+              {moment(item.date).format("YYYY/MM/DD hh:mm")}
+            </span>
+            <span>{item.author.displayName}</span>
+          </div>
           <div dangerouslySetInnerHTML={{ __html: item.body }} />
           <div dangerouslySetInnerHTML={{ __html: item.more }} />
         </>
