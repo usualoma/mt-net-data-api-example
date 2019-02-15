@@ -29,7 +29,7 @@ function Entry({
             .add(1, "day")
             .format("YYYY-MM-DD")}`
         ).then(({ data }) => {
-          setNext(data.items[0]);
+          setPrev(data.items[0]);
         });
 
         axios(
@@ -39,7 +39,7 @@ function Entry({
             .subtract(1, "day")
             .format("YYYY-MM-DD")}`
         ).then(({ data }) => {
-          setPrev(data.items[0]);
+          setNext(data.items[0]);
         });
       });
     },
