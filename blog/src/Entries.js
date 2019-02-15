@@ -42,7 +42,7 @@ function Entries({
   );
 
   async function fetchCategory() {
-    const result = await axios(baseUrl.replace(/\/entries.*/, ''));
+    const result = await axios(baseUrl.replace(/\/entries.*/, ""));
     setCategory(result.data);
   }
 
@@ -50,8 +50,7 @@ function Entries({
     () => {
       if (categoryId) {
         fetchCategory();
-      }
-      else {
+      } else {
         setCategory(null);
       }
     },
@@ -74,12 +73,15 @@ function Entries({
   );
 
   function getPage(offset) {
-    const base = url;
+    let base = url;
     if (page) {
-      url = url.replace(/\/\d+$/, '');
+      base = base.replace(/\/\d+$/, "");
     }
     const i = Math.floor(offset / perPage) + 1;
-    return i > 1 ? `${url}/${i}` : url;
+    if (base === "/") {
+      base = "";
+    }
+    return i > 1 ? `${base}/${i}` : base;
   }
 
   const hasPrev = offset !== 0;
@@ -100,7 +102,13 @@ function Entries({
                 </span>
                 <span className="mr-3">{item.author.displayName}</span>
                 {item.categories.map(c => (
-                    <Link key={c.id} to={`/categories/${c.id}`} className="mr-3 badge badge-secondary">{c.label}</Link>
+                  <Link
+                    key={c.id}
+                    to={`/categories/${c.id}`}
+                    className="mr-3 badge badge-secondary"
+                  >
+                    {c.label}
+                  </Link>
                 ))}
               </div>
               <p>{item.excerpt}</p>
