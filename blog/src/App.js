@@ -10,13 +10,18 @@ function App({ apiUrl, path }) {
       <div>
         <Route
           exact
-          path={path}
+          path={Path.join(path, ":page(\\d+)?")}
           render={props => (
-            <Entries apiUrl={apiUrl + "/entries"} perPage={10} path={path} {...props} />
+            <Entries
+              apiUrl={apiUrl + "/entries"}
+              perPage={10}
+              path={path}
+              {...props}
+            />
           )}
         />
         <Route
-          path={Path.join(path, "entries/:id")}
+          path={Path.join(path, "entries/:id(\\d+)")}
           render={props => <Entry apiUrl={apiUrl + "/entries"} {...props} />}
         />
       </div>

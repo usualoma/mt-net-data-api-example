@@ -4,7 +4,16 @@ import axios from "axios";
 import moment from "moment";
 import Asset from "./Asset";
 
-function Entries({ apiUrl, perPage, path, limit = 10, history }) {
+function Entries({
+  apiUrl,
+  perPage,
+  path,
+  limit = 10,
+  history,
+  match: {
+    params: { page },
+  },
+}) {
   const pagination = !!perPage;
   if (!perPage) {
     perPage = limit;
@@ -16,7 +25,7 @@ function Entries({ apiUrl, perPage, path, limit = 10, history }) {
     `fields=id,title,author,date,excerpt,assets,permalink&limit=${perPage}&offset=`;
 
   const [data, setData] = useState({ items: [], totalResults: 0 });
-  const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState(page ? (page - 1) * perPage : 0);
 
   async function fetchData() {
     const result = await axios(baseUrl + offset);
@@ -29,6 +38,11 @@ function Entries({ apiUrl, perPage, path, limit = 10, history }) {
     },
     [offset]
   );
+
+  function getPage(offset) {
+    const i = Math.floor(offset / perPage) + 1;
+    return i > 1 ? String(i) : "";
+  }
 
   const hasPrev = offset !== 0;
   const hasNext = offset + perPage < data.totalResults;
@@ -70,7 +84,10 @@ function Entries({ apiUrl, perPage, path, limit = 10, history }) {
                 aria-disabled={!hasPrev}
                 aria-label="Previous"
                 href="javascript:void(0)"
-                onClick={() => setOffset(offset - perPage)}
+                onClick={() => {
+                  history.push(Path.join(path, getPage(offset - perPage)));
+                  setOffset(offset - perPage);
+                }}
               >
                 <span aria-hidden="true">&laquo;</span>
               </a>
@@ -86,7 +103,10 @@ function Entries({ apiUrl, perPage, path, limit = 10, history }) {
                     <a
                       className="page-link"
                       href="javascript:void(0)"
-                      onClick={() => setOffset(o)}
+                      onClick={() => {
+                        history.push(Path.join(path, getPage(o)));
+                        setOffset(o);
+                      }}
                     >
                       {p + 1}
                     </a>
@@ -101,7 +121,10 @@ function Entries({ apiUrl, perPage, path, limit = 10, history }) {
                 aria-disabled={!hasNext}
                 aria-label="Next"
                 href="javascript:void(0)"
-                onClick={() => setOffset(offset + perPage)}
+                onClick={() => {
+                  history.push(Path.join(path, getPage(offset + perPage)));
+                  setOffset(offset + perPage);
+                }}
               >
                 <span aria-hidden="true">&raquo;</span>
               </a>
