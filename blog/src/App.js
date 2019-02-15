@@ -1,21 +1,29 @@
-import React, { Component, useState, useEffect } from "react";
-import { HashRouter, BrowserRouter, Route, Switch, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import {
+  HashRouter,
+  BrowserRouter,
+  Route,
+  Switch,
+  Link,
+} from "react-router-dom";
 import Entries from "./Entries";
 import Entry from "./Entry";
 
 function App({ apiUrl, path, baseTitle, routerType = "browser" }) {
   const Router = routerType === "browser" ? BrowserRouter : HashRouter;
-  const [title, setTitle] = useState(null);
+  const [breadcrumb, setBreadcrumb] = useState([]);
 
   useEffect(
     () => {
-      if (title) {
-        document.title = `${title} | ${baseTitle}`;
+      if (breadcrumb.length !== 0) {
+        document.title = `${
+          breadcrumb[breadcrumb.length - 1].title
+        } | ${baseTitle}`;
       } else {
         document.title = baseTitle;
       }
     },
-    [title]
+    [breadcrumb]
   );
 
   return (
@@ -23,19 +31,19 @@ function App({ apiUrl, path, baseTitle, routerType = "browser" }) {
       <>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
-            {title ? (
+            {breadcrumb.length !== 0 ? (
               <>
                 <li className="breadcrumb-item">
                   <Link to="/">Blog</Link>
                 </li>
-                <li className="breadcrumb-item active" aria-current="page">
-                  {title}
-                </li>
+                {breadcrumb.map(b => (
+                  <li key={b.url || "last"} className="breadcrumb-item active">
+                    {b.url ? <Link to={b.url}>{b.title}</Link> : b.title}
+                  </li>
+                ))}
               </>
             ) : (
-              <li className="breadcrumb-item active">
-                Blog
-              </li>
+              <li className="breadcrumb-item active">Blog</li>
             )}
           </ol>
         </nav>
@@ -48,7 +56,7 @@ function App({ apiUrl, path, baseTitle, routerType = "browser" }) {
                 apiUrl={apiUrl + "/entries"}
                 perPage={10}
                 path={path}
-                setTitle={setTitle}
+                setBreadcrumb={setBreadcrumb}
                 {...props}
               />
             )}
@@ -59,7 +67,19 @@ function App({ apiUrl, path, baseTitle, routerType = "browser" }) {
               <Entry
                 apiUrl={apiUrl + "/entries"}
                 path={path}
-                setTitle={setTitle}
+                setBreadcrumb={setBreadcrumb}
+                {...props}
+              />
+            )}
+          />
+          <Route
+            path="/categories/:id(\d+)"
+            render={props => (
+              <Entries
+                apiUrl={apiUrl + `/categories/${props.match.params.id}/entries`}
+                perPage={10}
+                path={path}
+                setBreadcrumb={setBreadcrumb}
                 {...props}
               />
             )}
